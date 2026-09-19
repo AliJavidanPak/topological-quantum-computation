@@ -1,0 +1,995 @@
+\documentclass[11pt]{article}
+
+\usepackage{float}
+\usepackage{diagbox}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{mathtools}
+
+\renewcommand{\arraystretch}{1.5}
+\setlength{\parindent}{0pt}
+
+\title{Topological Quantum Computation}
+
+\author{Ali Javidan Pak, Ashkan Naseri, Abolfazl Balouch}
+
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section*{Introduction}
+	
+	\textbf{What} is Topological Quantum Computation? A straightforward answer is that it is a promising and interdisciplinary area of research involving physicists from several fields, with particularly strong connections to condensed matter physics and quantum computation.
+	
+	\textbf{Why} has this subject become an active area of research? One of the most notable features of topological systems proposed for quantum computation is their potential for fault tolerance. Practical implementations of quantum computational models face a fundamental challenge: realizing them reliably in the laboratory. For a computation to be reliable, one must initialize qubits, perform quantum gates, and read out the computational result with high accuracy. Errors may arise from control inaccuracies inherent to experimental procedures or from uncontrollable perturbations caused by the environment. Quantum error correction has therefore been developed to reduce, and in suitable settings effectively correct, such errors in quantum computation. What does TQC have to offer in this regard?
+	
+	The key physical principle underlying TQC is rooted in topology: global properties of a system remain invariant under smooth local deformations. Just as a donut and a coffee mug are both genus-one surfaces because no smooth local deformation can remove their hole, topological quantum states possess global properties that remain robust against local perturbations. When quantum information is encoded in such global topological degrees of freedom, it can inherit this robustness. TQC encodes and manipulates quantum information using anyons. The remarkable feature of anyons is that their intrinsic physical properties, particularly their exchange statistics, can be exploited to perform quantum computation. The robustness of these properties against local environmental perturbations is the basis for the potential fault tolerance of TQC.
+	
+	\textbf{What} are anyons, and what are their statistics? In three spatial dimensions, two types of particle statistics are commonly encountered: bosons and fermions, which obey Bose--Einstein and Fermi--Dirac statistics, respectively. How do these statistics arise? They emerge when considering quantum many-body systems composed of indistinguishable particles.
+	
+	When considering the wave function of a system of indistinguishable particles living in the composite Hilbert space of its constituents, their indistinguishability must be taken into account. In particular, one must determine how the wave function changes under the adiabatic exchange of two or more particles. In three spatial dimensions, this leads to the familiar bosonic and fermionic statistics. In two dimensions, however, the situation is fundamentally different.
+	
+	We will explain explicitly how new forms of exchange statistics arise in two-dimensional systems later in this report. We will also review some basic ideas and concepts from topology that are essential for understanding the subject before proceeding with the main material of this project.
+	
+	Furthermore, we will follow a systematic approach to topological quantum systems, discussing how anyons can emerge as quasiparticles of such systems. We will then examine how anyons, particularly Abelian and non-Abelian anyons, can be used to encode and manipulate quantum information and how their exchange properties can be exploited for quantum computation.
+	
+	The ideas introduced above will be discussed in greater detail in the following sections.
+	
+	
+	\section*{Introduction to Anyonic Systems and Fusion Rules}
+	
+	In two-dimensional systems, quantum mechanics allows for the emergence of new types of particles, in addition to bosons and fermions, known as anyons. Here, we adopt a systematic approach to studying an anyonic system: we first define such a system and then introduce and explain a set of rules governing it.
+	
+	Anyons can be divided into two broad classes: Abelian and non-Abelian. We begin with Abelian anyons. For the Hilbert space of an anyonic system, we consider a finite set of labels $a,b,c,\dots$ representing the different particle species. The worldlines of these particles can merge, a process referred to as \emph{fusion}, or the reverse process can occur, in which the worldline of one particle splits into two worldlines, referred to as \emph{splitting}. Fusion and splitting can be represented as follows; these are also referred to as fusion channels:
+	\[
+	a \times b = b \times a = c \,\,\,\,\, \text{and}\,\,\,\,\, c = a \times b.
+	\]
+	
+	They can also be represented diagrammatically as follows:
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.40\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic1.png}
+			\caption{}
+		\end{subfigure}
+		\begin{subfigure}{0.40\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic2.png}
+			\caption{}
+		\end{subfigure}
+		\caption{}
+	\end{figure}
+	
+	There is a particular particle called the \emph{identity} particle or \emph{vacuum}, denoted by $I$, which is defined by
+	\[
+	a \times I = a.
+	\]
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.60\linewidth]{pic3.png}
+		\caption{}
+	\end{figure}
+	
+	Furthermore, every particle has a unique antiparticle, denoted by $\bar{a}$. The worldline of an antiparticle can be regarded as the worldline of the corresponding particle with the opposite orientation:
+	\[
+	a \times \bar{a} = I.
+	\]
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.40\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic4.png}
+			\caption{}
+		\end{subfigure}
+		\begin{subfigure}{0.40\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic5.png}
+			\caption{}
+		\end{subfigure}
+		\caption{}
+	\end{figure}
+	
+	In the non-Abelian case, at least one fusion rule has multiple orthogonal fusion channels. For example,
+	\[
+	a \times b = c + d + \dots
+	\]
+	The sum above is not an ordinary sum. Rather, it indicates that particles $a$ and $b$ can fuse into several different particle types. An analogous example is the addition of two spin-$\frac{1}{2}$ particles, which can produce a state with total spin $0$ or $1$. The Hilbert space of an anyonic system is then associated with the number of possible fusion channels, as we will illustrate in the examples below.
+	
+	At this point, we introduce an important principle known as \emph{locality}. Suppose that a particle $a$ enters a region of spacetime and its worldline undergoes a complicated sequence of processes. The principle of locality implies that, regardless of the complicated processes occurring inside this region, a particle with the same topological charge $a$ must emerge from the region. In other words, the corresponding quantum number, or topological charge, is conserved throughout these processes.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.50\linewidth]{pic6.png}
+		\caption{}
+	\end{figure}
+	
+	There is an important distinction between multichannel anyonic fusion and the example of two spin-$\frac{1}{2}$ particles. To determine the fusion channel of two anyons, one must perform a local measurement that involves both anyons. For two spins, however, such a condition is not necessarily required, since in some cases the total fusion channel can be determined by considering the spin of only one of the particles.
+	
+	\subsection*{Two Examples: Fibonacci and Ising Anyons}
+	
+	There are two particle types in the Fibonacci anyon theory: the vacuum $I$ and a nontrivial anyon $\tau$. The only nontrivial fusion rule of this theory is
+	\[
+	\tau \times \tau = I + \tau,
+	\]
+	where $\tau$ is its own antiparticle.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{pic7.png}
+		\caption{}
+	\end{figure}
+	
+	There are two possible fusion channels, giving a Hilbert-space dimension of $2$ for the corresponding fusion space. Now consider three Fibonacci anyons:
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic10.png}
+			\caption{}
+		\end{subfigure}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic9.png}
+			\caption{}
+		\end{subfigure}
+		\begin{subfigure}{\textwidth}
+			\centering
+			\includegraphics[width=0.60\linewidth]{pic8.png}
+			\caption{}
+		\end{subfigure}
+		\caption{}
+	\end{figure}
+	
+	which gives a Hilbert-space dimension of $3$. Continuing in the same way for larger numbers of Fibonacci anyons, one finds that, under the fusion-tree convention illustrated here, the dimension of the fusion space follows the Fibonacci sequence.
+	
+	We now turn to Ising anyons. The set of particle types is
+	\[
+	\{I,\sigma,\psi\},
+	\]
+	with the following nontrivial fusion rules:
+	\[
+	\psi \times \psi = I,
+	\qquad
+	\psi \times \sigma = \sigma,
+	\qquad
+	\sigma \times \sigma = I + \psi.
+	\]
+	
+	For example, the Hilbert-space dimension associated with $N$ $\sigma$ particles can be obtained from the corresponding fusion channels, as illustrated below:
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.50\linewidth]{pic11.png}
+		\caption{}
+	\end{figure}
+	
+	\subsection*{Fusion Matrix $N$}
+	
+	The fusion rules can be written in the form
+	\[
+	a \times b = \sum_{c} N^{c}_{ab} \, c.
+	\]
+	In the examples considered so far, the coefficients $N^{c}_{ab}$ have all been equal to $1$, but in general they can take other values. For example, if
+	\[
+	a \times b = 2c,
+	\]
+	this means that particles $a$ and $b$ can fuse into $c$ through two distinct fusion channels.
+	
+	Using this formalism, the fusion of three particles can be written as
+	\[
+	\left(a \times b\right) \times c
+	= \left(\sum_{d} N^{d}_{ab}\, d\right) \times c
+	= \sum_{d} N^{d}_{ab} \, \left(d \times c\right)
+	= \sum_{d,e} N^{d}_{ab}N^{e}_{dc} \, e.
+	\]
+	
+	These coefficients also satisfy a number of useful properties:
+	\[
+	N^{c}_{ab} = N^{c}_{ba},
+	\qquad
+	N^{c}_{ab} = N^{\bar{c}}_{\bar{a}\bar{b}},
+	\qquad
+	N^{c}_{aI} = \delta_{ac},
+	\qquad
+	N^{I}_{ab} = \delta_{a\bar{b}}.
+	\]
+	
+	The fusion matrices can be obtained directly from the fusion rules. For example, for the particle $\tau$ in Fibonacci anyon theory, we have
+	\[
+	N_{\tau} =
+	\begin{pmatrix}
+		N_{\tau}^{I,I} & N_{\tau}^{I,\tau} \\
+		N_{\tau}^{\tau,I} & N_{\tau}^{\tau,\tau}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		0 & 1 \\
+		1 & 1
+	\end{pmatrix}.
+	\]
+	
+	For the particle $\sigma$ in Ising anyon theory, we similarly obtain
+	\[
+	N_{\sigma} =
+	\begin{pmatrix}
+		0 & 1 & 0 \\
+		1 & 0 & 1 \\
+		0 & 1 & 0
+	\end{pmatrix},
+	\]
+	or, with the particle labels displayed explicitly,
+	\[
+	N_{\sigma} = \bordermatrix{
+		& I & \sigma & \psi \cr
+		I & 0 & 1 & 0 \cr
+		\sigma & 1 & 0 & 1 \cr
+		\psi & 0 & 1 & 0
+	}.
+	\]
+	
+	At this point, we have introduced anyonic systems, understood the basic fusion rules, and examined two important examples: Fibonacci and Ising anyons. In the next phase, we will introduce concepts such as the $F$-symbols and then study the exchange of identical particles in these models. Finally, we will see how these systems can be used for quantum computation.
+	
+	
+	\section*{Tensor Description of Fusion and Splitting Spaces}
+	
+	Before continuing, we would like to give a more precise mathematical description of the concepts of fusion and splitting introduced above. For each fusion multiplicity $N^{c}_{ab}$, we define a fusion space $V^{c}_{ab}$, and for each splitting multiplicity $N^{ab}_{c}$, we define a splitting space $V^{ab}_{c}$. The dimensions of these spaces are given by the corresponding fusion multiplicities:
+	\[
+	\dim V^{c}_{ab}
+	=
+	\dim V^{ab}_{c}
+	=
+	N^{c}_{ab}
+	=
+	N^{ab}_{c}.
+	\]
+	
+	For each of these spaces, we can choose orthonormal bases indexed by $\mu$, represented diagrammatically as follows:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.15\linewidth]{pic12.png}
+	\end{figure}
+	\[
+	= \left|a,b;c,\mu\right\rangle
+	\in V^{ab}_{c},
+	\qquad
+	\mu \in \{1,2,\dots,N^{ab}_{c}\}.
+	\]
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.15\linewidth]{pic13.png}
+	\end{figure}
+	\[
+	= \left\langle a,b;c,\mu \right|
+	\in V^{c}_{ab},
+	\qquad
+	\mu \in \{1,2,\dots,N^{c}_{ab}\}.
+	\]
+	
+	In most of the cases we consider, $N$ is equal to $1$, so there is no need to introduce the index $\mu$. Now suppose that we first fuse or split two particles $a$ and $b$, and that the result subsequently participates in another fusion or splitting process. This can be represented as follows:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.15\linewidth]{pic14.png}
+	\end{figure}
+	\[
+	=
+	\left|(a,b);d,\mu \right\rangle
+	\otimes
+	\left|d,c;e,\nu \right\rangle
+	\in
+	V^{ab}_{d} \otimes V^{dc}_{e}
+	\subseteq V^{abc}_{e}.
+	\]
+	
+	The parentheses in the first ket indicate the order in which the splittings are performed. That is, we first consider the splitting channel of anyons $a$ and $b$, and then use the result of this channel in a splitting process involving anyon $c$. In this case, the complete splitting space can be written as
+	\[
+	V^{abc}_{e}
+	\cong
+	V^{ab}_{d} \otimes V^{dc}_{e},
+	\]
+	where the symbol $\cong$ denotes an isomorphism.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.15\linewidth]{pic15.png}
+	\end{figure}
+	\[
+	=
+	\left|a,f;e,\lambda \right\rangle
+	\otimes
+	\left|(b,c);f,\eta \right\rangle
+	\in
+	V^{af}_{e} \otimes V^{bc}_{f}
+	\subseteq V^{abc}_{e}.
+	\]
+	
+	In this case, the complete splitting space is instead written as
+	\[
+	V^{abc}_{e}
+	\cong
+	V^{af}_{e} \otimes V^{bc}_{f}.
+	\]
+	
+	Consequently, we can write
+	\[
+	V^{abc}_{e}
+	\cong
+	\bigoplus_{d} V^{ab}_{d} \otimes V^{dc}_{e}
+	\cong
+	\bigoplus_{f} V^{af}_{e} \otimes V^{bc}_{f}.
+	\]
+	
+	What, then, is the relationship between the direct sums appearing above? We address this question in the next section.
+	
+	
+	\section*{Basis Transformation and the $F$ Matrix}
+	
+	\subsection*{Introduction}
+	
+	Consider three anyons $a$, $b$, and $c$ that fuse to produce anyon $e$. This fusion can be described in two different ways. We may first fuse $a$ and $b$, obtaining $d$, and then fuse $d$ with $c$. Alternatively, we may first fuse $b$ and $c$, obtaining $f$, and then fuse $f$ with $a$.
+	
+	These two descriptions ultimately correspond to the same fusion channel, or equivalently, to the same state in the space $V^{abc}_{e}$. Thus, the two descriptions introduced above simply represent the same state in two different bases. We now want to establish the relation between these bases.
+	
+	The basis transformation is represented by a unitary matrix $F$:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{pic16.png}
+	\end{figure}
+	\[
+	\left| (a,b);d \right\rangle
+	\otimes
+	\left| d,c;e \right\rangle
+	=
+	\sum_{f}
+	[F^{abc}_{e}]_{df}
+	\left|a,f;e \right\rangle
+	\otimes
+	\left|(b,c);f \right\rangle.
+	\]
+	
+	The matrix $F$ is also referred to as an \emph{$F$-symbol}. In some contexts, these quantities are related to the notation of $6j$-symbols because of their connection with recoupling coefficients.
+	
+	If any of the vertices appearing in the diagrams above is incompatible with the fusion algebra, the corresponding element of the $F$ matrix is defined to be zero. Furthermore, if one of the upper labels of the diagram, namely one of $a$, $b$, or $c$, is the identity particle $I$, the corresponding matrix element is equal to $1$:
+	\[
+	[F^{Ibc}_{e}]_{be}
+	=
+	[F^{aIc}_{e}]_{ac}
+	=
+	[F^{abI}_{e}]_{eb}
+	=
+	1.
+	\]
+	
+	The same type of basis transformation can also be applied to more complicated fusion trees:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\linewidth]{pic17.png}
+	\end{figure}
+	
+	
+	\subsection*{Two Examples: Fibonacci and Ising Anyons}
+	
+	\subsubsection*{Fibonacci Anyons}
+	
+	Recall the fusion of three Fibonacci anyons $\tau$. There were three possible states, denoted by $\left|N\right\rangle$, $\left|0\right\rangle$, and $\left|1\right\rangle$.
+	
+	First consider the state $\left|N\right\rangle$. This state is unique in the corresponding fusion space, so it does not matter which pair of anyons is fused first. Equivalently, the only possible intermediate particle is $\tau$, and therefore there is effectively no nontrivial basis transformation:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.35\linewidth]{pic18.png}
+	\end{figure}
+	\[
+	\Rightarrow
+	[F^{\tau\tau\tau}_{I}]_{\tau\tau}=1.
+	\]
+	
+	Similarly, if one of the upper anyons is the identity particle $I$, the corresponding matrix element is equal to $1$.
+	
+	Now consider the states in which the three anyons fuse to the final particle $\tau$.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.4\textwidth}
+			\centering
+			\includegraphics[width=0.9\linewidth]{pic20.png}
+		\end{subfigure}
+		\begin{subfigure}{0.4\textwidth}
+			\centering
+			\includegraphics[width=0.9\linewidth]{pic19.png}
+		\end{subfigure}
+	\end{figure}
+	
+	The basis transformation between the two bases above can be written as follows. For simplicity, we denote $[F^{\tau\tau\tau}_{\tau}]$ simply by $F$, and use $0$ and $1$ in place of $I$ and $\tau$, respectively:
+	\[
+	\begin{pmatrix}
+		\left| 0 \right\rangle\\
+		\left| 1 \right\rangle 
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		F_{00'} & F_{01'} \\
+		F_{10'} & F_{11'}
+	\end{pmatrix}
+	\begin{pmatrix}
+		\left| 0' \right\rangle\\
+		\left| 1' \right\rangle 
+	\end{pmatrix}.
+	\]
+	
+	With a suitable choice of gauge, the $F$ matrix takes the form
+	\[
+	F^{\tau\tau\tau}_{\tau}
+	=
+	F
+	=
+	\begin{pmatrix}
+		\phi^{-1} & \phi^{-1/2} \\
+		\phi^{-1/2} & -\phi^{-1}
+	\end{pmatrix},
+	\]
+	where $\phi$ is the golden ratio,
+	\[
+	\phi = \dfrac{1+\sqrt{5}}{2}.
+	\]
+	
+	The derivation of this form is not immediate, but it can be obtained using the constraints imposed on the $F$ matrices, including unitarity and the pentagon equation.
+	
+	\subsubsection*{Ising Anyons}
+	
+	Now consider the fusion of three $\sigma$ anyons with total fusion channel $\sigma$:
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.4\textwidth}
+			\centering
+			\includegraphics[width=0.9\linewidth]{pic22.png}
+		\end{subfigure}
+		\begin{subfigure}{0.4\textwidth}
+			\centering
+			\includegraphics[width=0.9\linewidth]{pic21.png}
+		\end{subfigure}
+	\end{figure}
+	
+	The basis transformation is analogous to the one obtained for Fibonacci anyons. In this case, the basis-transformation matrix is
+	\[
+	F^{\sigma\sigma\sigma}_{\sigma}
+	=
+	F
+	=
+	\dfrac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		1 & 1 \\
+		1 & -1
+	\end{pmatrix}.
+	\]
+	
+	
+	\subsection*{The Pentagon Equation}
+	
+	We have seen that the fusion of three anyons with a fixed total fusion channel can be described in several different but equivalent ways. In other words, the same space can be represented using different bases, and the $F$ matrix provides the transformation between these bases.
+	
+	For fusion processes involving a larger number of anyons, the diagrams can become considerably more complicated. Nevertheless, all such descriptions represent the same underlying fusion space, and the different descriptions can still be related by successive $F$ transformations.
+	
+	Consider four anyons $a$, $b$, $c$, and $d$ with total fusion channel $e$. The connections between the particles can be changed using $F$ matrices. The following diagram illustrates the different fusion trees:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic23.png}
+	\end{figure}
+	
+	Starting from the diagram on the left, there are two different paths to reach the diagram on the right. These two paths correspond to different sequences of basis transformations, but they must produce the same result.
+	
+	For the upper path, we have
+	\[
+	\left| \underbrace{(\overbrace{(a,b)}^{f},c)}_{g},d;e \right\rangle
+	=
+	\sum_{l}
+	[F^{fcd}_{e}]_{gl}
+	\left|
+	\overbrace{(a,b)}^{f},
+	\overbrace{(c,d)}^{l};e
+	\right\rangle
+	\]
+	\[
+	=
+	\sum_{k}\sum_{l}
+	[F^{abl}_{e}]_{fk}
+	[F^{fcd}_{e}]_{gl}
+	\left|
+	a,
+	\underbrace{(b,\overbrace{(c,d)}^{l})}_{k};e
+	\right\rangle.
+	\]
+	
+	Following the lower path, we obtain
+	\[
+	\left| \underbrace{(\overbrace{(a,b)}^{f},c)}_{g},d;e \right\rangle
+	=
+	\sum_{h}
+	[F^{abc}_{g}]_{fh}
+	\left|
+	\underbrace{(a,\overbrace{(b,c)}^{h})}_{g},d;e
+	\right\rangle
+	\]
+	\[
+	=
+	\sum_{k}\sum_{h}
+	[F^{ahd}_{e}]_{gk}
+	[F^{abc}_{g}]_{fh}
+	\left|
+	a,
+	\underbrace{(\overbrace{(b,c)}^h,d)}_{k};e
+	\right\rangle
+	\]
+	\[
+	=
+	\sum_{l}\sum_{k}\sum_{h}
+	[F^{bcd}_{k}]_{hl}
+	[F^{ahd}_{e}]_{gk}
+	[F^{abc}_{g}]_{fh}
+	\left|
+	a,
+	\underbrace{(b,\overbrace{(c,d)}^{l})}_{k};e
+	\right\rangle.
+	\]
+	
+	Equating the results obtained from the two paths gives
+	\begin{equation*}
+		\boxed{
+			[F^{abl}_e]_{fk}[F^{fcd}_e]_{gl}
+			=
+			\sum_h
+			[F^{bcd}_k]_{hl}
+			[F^{ahd}_e]_{gk}
+			[F^{abc}_g]_{fh}
+		}
+	\end{equation*}
+	
+	This diagram is known as the \emph{pentagon diagram}, and the corresponding constraint is called the \emph{pentagon equation}. For a given set of fusion rules, the pentagon constraint produces a finite set of algebraic equations that restrict the possible forms of the $F$ matrices. For simple anyon theories such as Fibonacci and Ising, the fusion rules together with the pentagon equation are sufficient to determine the relevant $F$ matrices, up to the appropriate gauge freedom.
+	
+	An important question arises here: can more complicated fusion trees lead to additional constraints on the $F$ matrices? There is a general result ensuring that consistency of the pentagon relation is sufficient; more complicated tree diagrams do not introduce independent constraints beyond those already implied by the pentagon equation.
+	
+	We now turn to the exchange of identical particles in anyon theories.
+	
+	
+	\section*{Exchange of Identical Anyons}
+	
+	\subsection*{Introduction to the $R$ Matrix}
+	
+	In quantum mechanics, exchanging identical particles can change the wave function by a phase. A similar phenomenon occurs for anyons, but the resulting exchange phase depends on the fusion channel of the anyons.
+	
+	Consider two identical anyons $a$ with total fusion channel $c$. We assume here a basic familiarity with the braid group:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.55\linewidth]{pic24.png}
+	\end{figure}
+	
+	What happens if we braid the particles around one another? The total fusion channel remains $c$. This follows from locality: a region of spacetime containing the two anyons is associated with the same total topological charge before and after the braid. However, the state itself acquires a phase, denoted by $R^{aa}_{c}$:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.55\linewidth]{pic25.png}
+	\end{figure}
+	
+	We refer to $R^{aa}_{c}$ as an $R$-symbol. It characterizes the effect of exchanging the two anyons in the specified fusion channel.
+	
+	Now consider three anyons $a$ and the state denoted by $\left|c;f\right\rangle$:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.55\linewidth]{pic26.png}
+	\end{figure}
+	
+	We now want to braid the two anyons on the left by a half-twist. We denote this operation by $\hat{\sigma}_{1}$, corresponding to one of the generators of the braid group:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic27.png}
+	\end{figure}
+	
+	Like other operators in quantum mechanics, this operator acts linearly on quantum states. Thus, for a linear combination of states,
+	\[
+	\hat{\sigma}_{1}
+	\sum_{c}
+	\alpha_{c}
+	\left|c;f\right\rangle
+	=
+	\sum_{c}
+	\alpha_{c}\,
+	\hat{\sigma}_{1}
+	\left|c;f\right\rangle.
+	\]
+	
+	\subsection*{Using the $F$ Matrix to Construct Definite Fusion Channels}
+	
+	What if we want to braid the two particles on the right? Again, by braiding we mean a half-twist. The two rightmost particles are not initially in a definite fusion channel, so we cannot directly apply the $R$ matrix to the state.
+	
+	We therefore use the $F$ matrix. First, we apply an $F$ transformation to express the state in a basis in which the two rightmost particles have a definite fusion channel:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic28.png}
+	\end{figure}
+	
+	Now that the two rightmost particles are in a definite fusion channel, we can braid them:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic29.png}
+	\end{figure}
+	
+	Finally, if we want to express the result in terms of the original basis
+	$\left|\overbrace{(a,a)}^{c},a;f\right\rangle$, we use the inverse of the $F$ matrix to return to the original basis. Schematically, the entire procedure can be written as
+	\[
+	\hat{\sigma}_{2} \left| c;f \right\rangle
+	=
+	\sum_{g,z}
+	[(F^{aaa}_{f})^{-1}]_{gz}
+	R^{aa}_{g}
+	[F^{aaa}_{f}]_{cg}
+	\left|z;f\right\rangle.
+	\]
+	
+	Thus, the $F$ matrix allows us to braid particles that are not initially in a definite fusion channel.
+	
+	\subsection*{Locality}
+	
+	Suppose that a group of particles, such as $a$ and $b$, with total fusion channel (or total topological charge) $c$, is braided around another group of particles, such as $x$, $y$, and $z$, with total charge $w$. The principle of locality implies that, as far as the resulting phase is concerned, this process is equivalent to braiding the effective particle $c$ around the effective particle $w$:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic30.png}
+	\end{figure}
+	
+	In other words, the phase acquired by the state is the same in both descriptions.
+	
+	We now examine some examples to make the use of the $R$ matrix more explicit.
+	
+	
+	\subsection*{Examples: Fibonacci and Ising Anyons}
+	
+	\subsubsection*{Fibonacci Anyons}
+	
+	For two Fibonacci anyons, there are two possible fusion channels. For simplicity, we represent them as follows:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{pic31.png}
+	\end{figure}
+	
+	Now consider the operator $\hat{\sigma}$ that exchanges the two Fibonacci anyons counterclockwise when viewed from above:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.4\linewidth]{pic32.png}
+	\end{figure}
+	
+	The explicit form of the corresponding $R$ symbols is not immediate. They can be obtained using additional consistency relations, such as the hexagon equations, which we will not derive here.
+	
+	For Fibonacci anyons, there are two choices of $R$ symbols corresponding to the two chiralities of the theory, conventionally referred to as the right-handed and left-handed Fibonacci theories. For the right-handed convention, we have
+	\[
+	R^{\tau\tau}_{I}
+	=
+	e^{-\frac{4\pi i}{5}},
+	\qquad
+	R^{\tau\tau}_{\tau}
+	=
+	e^{\frac{3\pi i}{5}}.
+	\]
+	
+	The $R$ symbols for the opposite chirality are the complex conjugates of these values.
+	
+	Now consider three Fibonacci anyons:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic33.png}
+	\end{figure}
+	
+	These diagrams correspond to definite fusion channels. Consider a more interesting situation in which we want to braid the two rightmost anyons. Suppose that the initial state is $\left|0\right\rangle$ and that we want to apply $\hat{\sigma}_{2}$:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{pic34.png}
+	\end{figure}
+	
+	Since the two rightmost anyons are not in a definite fusion channel in the original basis, we first use the $F$ matrix to change the fusion tree so that the action of $\hat{\sigma}_{2}$ can be evaluated.
+	
+	The basis transformation is
+	\[
+	\begin{pmatrix}
+		\left| 0 \right\rangle\\
+		\left| 1 \right\rangle 
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		F_{00'} & F_{01'} \\
+		F_{10'} & F_{11'}
+	\end{pmatrix}
+	\begin{pmatrix}
+		\left| 0' \right\rangle\\
+		\left| 1' \right\rangle 
+	\end{pmatrix},
+	\]
+	and therefore
+	\[
+	\left|0\right\rangle
+	=
+	F_{00'}\left|0'\right\rangle
+	+
+	F_{01'}\left|1'\right\rangle.
+	\]
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\linewidth]{pic35.png}
+	\end{figure}
+	
+	After braiding the two rightmost anyons, we obtain
+	\[
+	=
+	F_{00'}R^{\tau\tau}_{I}\left|0'\right\rangle
+	+
+	F_{01'}R^{\tau\tau}_{\tau}\left|1'\right\rangle.
+	\]
+	
+	We then use the inverse of the $F$ matrix to return to the original basis:
+	\[
+	\begin{pmatrix}
+		\left| 0' \right\rangle\\
+		\left| 1' \right\rangle 
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		[F^{-1}]_{0'0} & [F^{-1}]_{0'1} \\
+		[F^{-1}]_{1'0} & [F^{-1}]_{1'1}
+	\end{pmatrix}
+	\begin{pmatrix}
+		\left| 0 \right\rangle\\
+		\left| 1 \right\rangle 
+	\end{pmatrix}.
+	\]
+	
+	Therefore,
+	\[
+	\hat{\sigma}_{2}\left|0\right\rangle
+	=
+	F_{00'}R^{\tau\tau}_{I}\left|0'\right\rangle
+	+
+	F_{01'}R^{\tau\tau}_{\tau}\left|1'\right\rangle
+	\]
+	\[
+	=
+	F_{00'}R^{\tau\tau}_{I}
+	\left(
+	[F^{-1}]_{0'0}\left|0\right\rangle
+	+
+	[F^{-1}]_{0'1}\left|1\right\rangle
+	\right)
+	\]
+	\[
+	\qquad
+	+
+	F_{01'}R^{\tau\tau}_{\tau}
+	\left(
+	[F^{-1}]_{1'0}\left|0\right\rangle
+	+
+	[F^{-1}]_{1'1}\left|1\right\rangle
+	\right)
+	\]
+	\[
+	=
+	\left(
+	F_{00'}R^{\tau\tau}_{I}[F^{-1}]_{0'0}
+	+
+	F_{01'}R^{\tau\tau}_{\tau}[F^{-1}]_{1'0}
+	\right)
+	\left|0\right\rangle
+	+
+	\left(
+	F_{00'}R^{\tau\tau}_{I}[F^{-1}]_{0'1}
+	+
+	F_{01'}R^{\tau\tau}_{\tau}[F^{-1}]_{1'1}
+	\right)
+	\left|1\right\rangle.
+	\]
+	
+	Using the $F$ matrix and its inverse, which are equal for this particular Fibonacci convention, we can obtain the matrix representations of $\hat{\sigma}_{1}$ and $\hat{\sigma}_{2}$ in the basis
+	$\left|N\right\rangle$, $\left|0\right\rangle$, and $\left|1\right\rangle$.
+	
+	The operator $\hat{\sigma}_{1}$ is diagonal in this basis, whereas obtaining $\hat{\sigma}_{2}$ requires the basis transformation described above. The resulting matrices are
+	\[
+	\hat{\sigma}_{1}
+	=
+	\begin{pmatrix}
+		e^{\frac{3 \pi i}{5}} & 0 & 0 \\
+		0 & e^{-\frac{4 \pi i}{5}} & 0 \\
+		0 & 0 & e^{\frac{3 \pi i}{5}}
+	\end{pmatrix}
+	\]
+	and
+	\[
+	\hat{\sigma}_{2}
+	=
+	\begin{pmatrix}
+		e^{\frac{3 \pi i}{5}} & 0 & 0 \\
+		0 & \phi^{-1}e^{\frac{4 \pi i}{5}}
+		& \phi^{-\frac{1}{2}}e^{-\frac{3 \pi i}{5}} \\
+		0 & \phi^{-\frac{1}{2}}e^{-\frac{3 \pi i}{5}}
+		& -\phi^{-1}
+	\end{pmatrix}.
+	\]
+	
+	\subsubsection*{Ising Anyons}
+	
+	Now consider the fusion of three $\sigma$ particles. There are two possible fusion states:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\linewidth]{pic36.png}
+	\end{figure}
+	
+	For the right-handed Ising theory, the relevant $R$ symbols are
+	\[
+	R^{\sigma\sigma}_{I}
+	=
+	e^{-\frac{i\pi}{8}},
+	\qquad
+	R^{\sigma\sigma}_{\psi}
+	=
+	e^{\frac{3\pi i}{8}}.
+	\]
+	
+	For the opposite chirality, the corresponding values are their complex conjugates.
+	
+	Using these $R$ symbols together with the $F$ matrix, we obtain the following matrix representations of the braid generators:
+	\[
+	\hat{\sigma}_{1}
+	=
+	e^{-\frac{i\pi}{8}}
+	\begin{pmatrix}
+		1 & 0 \\
+		0 & i
+	\end{pmatrix}
+	\]
+	and
+	\[
+	\hat{\sigma}_{2}
+	=
+	\frac{e^{\frac{i\pi}{8}}}{\sqrt{2}}
+	\begin{pmatrix}
+		1 & -i \\
+		-i & 1
+	\end{pmatrix}.
+	\]
+	
+	In the next section, we turn to quantum computation using anyons.
+	
+	
+	\section*{Quantum Computation with Anyons}
+	
+	\section{Universality in the Quantum Circuit Model}
+	
+	Before discussing anyons, we need a precise definition of what we mean by a quantum computation. Suppose that our Hilbert space contains $N$ qubits, and therefore has dimension $D=2^N$. All possible unitary operations on this space form the unitary group $U(D)$.
+	
+	A quantum computer applies one of a finite set of $p$ elementary operators, or gates, at each step. If a sequence of $t$ gates
+	$(U_{i_1},\dots,U_{i_t})$
+	is applied, the resulting operation is
+	\begin{equation}
+		U = U_{i_t}\cdots U_{i_2}U_{i_1},
+	\end{equation}
+	where $t$ represents the length of the circuit.
+	
+	\subsection{Approximation and a Distance Measure}
+	
+	Since the set of elementary gates is finite, an arbitrary unitary matrix cannot in general be implemented exactly using a finite circuit. However, it can be approximated arbitrarily well by a universal gate set.
+	
+	To quantify the accuracy of such an approximation, we define the following phase-independent distance measure:
+	\begin{equation}
+		\mathbf{dist}(U;V)
+		=
+		\sqrt{
+			1-\frac{|\operatorname{Tr}[U^\dagger V]|}{D}
+		}.
+	\end{equation}
+	
+	A set of gates is called \emph{universal} if, for any target unitary operation $U_{\mathrm{target}}$ and any desired accuracy $\epsilon>0$, there exists a finite sequence of gates such that
+	\begin{equation}
+		\mathbf{dist}
+		\left(
+		U_{\mathrm{target}};
+		U_{i_t}\cdots U_{i_1}
+		\right)
+		<
+		\epsilon.
+	\end{equation}
+	
+	\subsection{The Solovay--Kitaev Theorem}
+	
+	One of the important theoretical results relevant to quantum computation is the \emph{Solovay--Kitaev theorem}. Roughly speaking, it states that a suitable finite universal gate set can approximate arbitrary unitary operations with an overhead that grows polylogarithmically with the inverse of the desired accuracy.
+	
+	In particular, the number of gates required scales as
+	\begin{equation}
+		t = \mathcal{O}\!\left(\log^{c}(1/\epsilon)\right),
+	\end{equation}
+	where $c$ is a positive constant whose value depends on the particular formulation and compilation procedure.
+	
+	Thus, increasing the required precision does not lead to an exponential increase in the circuit length.
+	
+	
+	\section{Encoding Qubits with Anyons}
+	
+	To implement the quantum circuit model using anyons, quantum information is stored in the fusion space of several anyons, and quantum gates are implemented through braiding operations.
+	
+	\subsection{The Fibonacci Model}
+	
+	In the Fibonacci model, the nontrivial particle $\tau$ obeys the fusion rule
+	\[
+	\tau\times\tau=\mathbf{1}+\tau.
+	\]
+	
+	A logical qubit can be encoded using three $\tau$ anyons, or four anyons in encoding schemes that impose a fixed total topological charge. The corresponding fusion space provides a two-dimensional logical subspace in which the states $\left|0\right\rangle$ and $\left|1\right\rangle$ can be defined.
+	
+	The key property of the Fibonacci model is that braiding Fibonacci anyons generates a representation whose image is dense in the relevant unitary group. Consequently, braiding alone is sufficient for universal quantum computation, up to arbitrary approximation.
+	
+	\subsection{The Ising Model}
+	
+	In the Ising model,
+	\[
+	\sigma\times\sigma=\mathbf{1}+\psi.
+	\]
+	
+	Qubits are typically encoded using four $\sigma$ anyons. However, braiding Ising anyons alone generates only the Clifford group (up to overall phases), which is not sufficient for universal quantum computation.
+	
+	Therefore, additional non-topological operations are required to achieve universality. Such operations do not possess the same intrinsic topological protection as braiding operations.
+	
+	
+	\section{The Condition for Universality: The Brylinski Theorem}
+	
+	The Brylinski theorem provides a useful characterization of universal quantum computation. Roughly speaking, a universal quantum computer can be constructed from arbitrary single-qubit operations together with a suitable entangling two-qubit operation.
+	
+	Thus, the two essential ingredients are:
+	\begin{enumerate}
+		\item the ability to perform arbitrary single-qubit operations;
+		\item the ability to perform an entangling operation between two qubits.
+	\end{enumerate}
+	
+	In a topological quantum computer, these operations can be implemented through braiding operations when the underlying anyon model supports the required computational power:
+	
+	\begin{itemize}
+		\item[$\bullet$] Single-qubit operations can be implemented by braiding anyons within a logical qubit.
+		\item[$\bullet$] Two-qubit entangling operations can be obtained by braiding anyons associated with one logical qubit around anyons associated with another.
+	\end{itemize}
+	
+	
+	\section{The DiVincenzo Criteria}
+	
+	David DiVincenzo proposed five criteria for a physical system to serve as a practical quantum computer. Topological quantum computation addresses these criteria in the following ways:
+	
+	\begin{enumerate}
+		\item \textbf{Scalable, well-characterized physical qubits:} \\
+		In TQC, a logical qubit is not represented by a single particle. Instead, it is encoded in the fusion space of several anyons, for example three or four anyons. Adding more anyons allows the system to encode additional logical degrees of freedom. The exponential growth of the many-body Hilbert space provides the underlying structure required for scalable encoding, although an actual physical implementation must also satisfy additional experimental constraints.
+		
+		\item \textbf{Initialization of qubits:} \\
+		Initialization can be achieved by creating particle--antiparticle pairs from the vacuum $\mathbf{1}$. Starting from the vacuum fixes the total topological charge, and separating the resulting pairs provides a well-defined initial fusion state.
+		
+		\item \textbf{Long coherence times:} \\
+		One of the central motivations for TQC is the possibility of topological protection. Quantum information is encoded in global properties of the system, while many environmental perturbations are local. Under suitable physical conditions, local perturbations therefore have limited ability to modify the encoded topological information. This can strongly suppress certain sources of errors.
+		
+		\item \textbf{A universal set of quantum gates:} \\
+		Quantum gates can be implemented through braiding anyons around one another. As discussed above, Fibonacci anyons provide a universal braiding model, whereas Ising anyons require additional non-topological operations to achieve universality.
+		
+		\item \textbf{A means of measuring individual qubits:} \\
+		Measurement in TQC can be performed through fusion measurements. By bringing appropriate anyons together and determining their total topological charge, one can distinguish different logical states, such as $\left|0\right\rangle$ and $\left|1\right\rangle$, within the chosen encoding.
+	\end{enumerate}
+	
+	
+	\section{Conclusion}
+	
+	In this project, we combined concepts from quantum computation and topological quantum physics to study the basic principles of topological quantum computation. In particular:
+	
+	\begin{itemize}
+		\item[$\bullet$] We introduced a mathematical definition of universality based on approximating arbitrary unitary matrices using a suitable distance measure.
+		
+		\item[$\bullet$] The Solovay--Kitaev theorem shows that, for an appropriate finite universal gate set, arbitrary unitary operations can be approximated with a polylogarithmic overhead in the inverse of the desired accuracy.
+		
+		\item[$\bullet$] Fibonacci anyons provide a model in which braiding alone is sufficient for universal quantum computation, making them an important theoretical platform for topological quantum computation. In contrast, Ising anyons require additional non-topological operations to achieve universality.
+		
+		\item[$\bullet$] We examined how topological quantum computation addresses the DiVincenzo criteria, including qubit encoding, initialization, coherence, quantum gates, and measurement.
+	\end{itemize}
+	
+\end{document}
