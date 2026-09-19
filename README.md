@@ -62,7 +62,7 @@ The accompanying report develops the subject in three stages:
 
 The complete project report is available as a PDF:
 
-**[TQC Project](TQC_project.pdf)**
+**[TQC_Project](TQC_project.pdf)**
 
 The corresponding LaTeX source is also included in the repository.
 
